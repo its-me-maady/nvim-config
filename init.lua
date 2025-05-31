@@ -16,5 +16,23 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("keymaps")
-require("lazy").setup("plugins")
+require("lazy").setup("plugins",{
+	ui = {
+        icons = vim.g.have_nerd_font and {} or {
+            cmd = '⌘',
+            config = '🛠',
+            event = '📅',
+            ft = '📂',
+            init = '⚙',
+            keys = '🗝',
+            plugin = '🔌',
+            runtime = '💻',
+            require = '🌙',
+            source = '📄',
+            start = '🚀',
+            task = '📌',
+            lazy = '💤 ',
+        },
+    },
+})
 require("options")

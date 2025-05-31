@@ -1,6 +1,7 @@
 return {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
+    event = 'VimEnter',
     dependencies = {
         "nvim-lua/plenary.nvim",
         "nvim-tree/nvim-web-devicons",
@@ -20,6 +21,7 @@ return {
                     },
                 },
             },
+            hijack_netrw_behavior = "open_default",
             filesystem = {
                 filtered_items = {
                     visible = true,
@@ -28,10 +30,22 @@ return {
                 },
             },
         })
+
+        vim.api.nvim_create_user_command("EDot", function()
+            vim.cmd("lcd %:p:h")
+            require("neo-tree.command").execute({
+                action = "focus",
+                source = "filesystem",
+                position = "left",
+                dir = vim.fn.expand("%:p:h"),
+            })
+        end, {})
+
         vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "NONE" })
         vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "NONE" })
         vim.api.nvim_set_hl(0, "NeoTreeFloatBorder", { bg = "NONE" })
         vim.api.nvim_set_hl(0, "NeoTreeFloatTitle", { bg = "NONE" })
         vim.keymap.set('n', '\\', ":Neotree toggle<CR>", { desc = "Toggle Neo-tree" })
+        vim.keymap.set('n', '<leader>\\', ":EDot<CR>", { desc = "Toggle Neo-tree" })
     end,
 }
