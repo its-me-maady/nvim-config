@@ -13,7 +13,8 @@ vim.keymap.set('n', '<C-q>', ":q<CR>", { desc = 'Quit' })
 
 
 vim.keymap.set('n', '<Esc>', ":nohlsearch<CR>", { desc = 'Clear search highlight' })
-vim.keymap.set('t', '<leader><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+vim.keymap.set('t', '<A-t>', '<C-\\><C-n>', { desc = 'Exit terminal mode', noremap = true })
+vim.keymap.set('n', '<C-t>', '<cmd>term<CR>', { desc = 'Enter terminal' })
 
 
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
@@ -32,6 +33,7 @@ vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
 vim.keymap.set('n', "<Tab>", ":bnext<CR>", { desc = 'Next buffer' })
 vim.keymap.set('n', '<S-Tab>', ":bprevious<CR>", { desc = 'Previous buffer' })
+vim.keymap.set({ 'n', 't', 'v' }, 'bt', "<cmd>bdelete<CR>", { desc = 'Delete buffer' })
 
 
 vim.keymap.set("n", "<A-j>", ":m .+1<CR>==", { desc = "Move line down", silent = true })
