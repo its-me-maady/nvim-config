@@ -47,9 +47,6 @@ return {
         vim.keymap.set('n', '<leader>/', builtin.current_buffer_fuzzy_find,
             { desc = '[/] Fuzzily search in current buffer' })
         vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
-        vim.keymap.set('n', '<leader>fc', function()
-            builtin.find_files({ cwd = vim.fn.getcwd() })
-        end, { desc = 'Telescope find files in current directory' })
         vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
         vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
         vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })

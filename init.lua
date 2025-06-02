@@ -16,8 +16,9 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("keymaps")
-require("lazy").setup("plugins",{
-	ui = {
+require("options")
+require("lazy").setup("plugins", {
+    ui = {
         icons = vim.g.have_nerd_font and {} or {
             cmd = '⌘',
             config = '🛠',
@@ -35,4 +36,3 @@ require("lazy").setup("plugins",{
         },
     },
 })
-require("options")

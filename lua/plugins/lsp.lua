@@ -55,23 +55,29 @@ return {
             sources = {
                 { name = 'nvim_lsp' },
                 { name = 'buffer' },
+                { name = 'path' },
+                { name = 'luasnip' },
             },
         })
 
+        local format_augroup = vim.api.nvim_create_augroup("LspFormat", { clear = true })
+
         lsp_zero.on_attach(function(client, bufnr)
+            if client.supports_method("textDocument/formatting") then
+                vim.api.nvim_clear_autocmds({ group = format_augroup, buffer = bufnr })
+                vim.api.nvim_create_autocmd("BufWritePre", {
+                    group = format_augroup,
+                    buffer = bufnr,
+                    callback = function()
+                        vim.lsp.buf.format({ async = true })
+                    end,
+                })
+            end
+
             vim.keymap.set('n', '<F9>', function()
                 vim.lsp.buf.format()
                 print('Formated')
             end, { desc = "Format file" })
-            if client.supports_method("textDocument/formatting") then
-                vim.api.nvim_create_autocmd("BufWritePre", {
-                    group = vim.api.nvim_create_augroup("LspFormat", { clear = true }),
-                    buffer = bufnr,
-                    callback = function()
-                        vim.lsp.buf.format()
-                    end,
-                })
-            end
             vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = "View docs over a word" })
             vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = "Goto definition" })
             vim.keymap.set('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>')
