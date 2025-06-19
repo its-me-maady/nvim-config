@@ -14,9 +14,9 @@ return {
             vim.cmd [[colorscheme tokyonight-storm]]
 
             vim.cmd [[
-            highlight Normal guibg=NONE ctermbg=NONE
-            highlight NormalNC guibg=NONE ctermbg=NONE
-            highlight EndOfBuffer guibg=NONE ctermbg=NONE
+            hi Normal guibg=NONE ctermbg=NONE
+            hi NormalNC guibg=NONE ctermbg=NONE
+            hi EndOfBuffer guibg=NONE ctermbg=NONE
             ]]
         end
     }

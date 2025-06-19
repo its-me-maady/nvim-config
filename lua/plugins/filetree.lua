@@ -45,7 +45,7 @@ return {
         vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "NONE" })
         vim.api.nvim_set_hl(0, "NeoTreeFloatBorder", { bg = "NONE" })
         vim.api.nvim_set_hl(0, "NeoTreeFloatTitle", { bg = "NONE" })
-        vim.keymap.set('n', '\\', ":Neotree toggle<CR>", { desc = "Toggle Neo-tree" })
-        vim.keymap.set('n', '<leader>\\', ":EDot<CR>", { desc = "Toggle Neo-tree" })
+        vim.keymap.set('n', '\\', ":Neotree toggle<CR>", { silent = true, remap = false, desc = "Toggle Neo-tree" })
+        vim.keymap.set('n', '<leader>\\', ":EDot<CR>", { silent = true, remap = false, desc = "Toggle Neo-tree" })
     end,
 }

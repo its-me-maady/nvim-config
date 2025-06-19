@@ -9,7 +9,6 @@ vim.o.undofile = true
 vim.o.swapfile = false
 vim.o.ignorecase = true
 vim.o.splitright = true
-vim.o.splitbelow = true
 vim.o.confirm = true
 
 vim.diagnostic.config({
