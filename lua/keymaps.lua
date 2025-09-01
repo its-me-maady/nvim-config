@@ -3,7 +3,7 @@ vim.g.maplocalleader = ' '
 
 
 vim.keymap.set('n', '<leader>i', 'gg=G``', { desc = 'Indent current file', noremap = true, silent = true })
-vim.keymap.set('i', 'jk', '<Esc>', { desc = 'Exit insert mode', noremap = true, silent = true })
+vim.keymap.set({ 'i', 'v', 'x' }, 'jk', '<Esc>', { desc = 'Exit insert mode', noremap = true, silent = true })
 
 
 vim.keymap.set({ "i", "n" }, '<C-n>', ':saveas ', { desc = 'Save new file', noremap = true, silent = true })
@@ -29,7 +29,7 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window', noremap = true, silent = true })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window', noremap = true, silent = true })
 
-vim.keymap.set('n', '<leader>y', 'gg0vG$"+y', { desc = 'Yank current file to clipboard', noremap = true, silent = true })
+vim.keymap.set('n', '<leader>y', 'gg0vG$"+y')
 vim.keymap.set('v', '<leader>y', '"+y', { desc = 'Yank Selection to clipboard', noremap = true, silent = true })
 
 -- TIP: Disable arrow keys in normal mode
@@ -53,7 +53,3 @@ vim.keymap.set("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move Up" })
 
 vim.keymap.set('v', '<A-k>', ":m '<-2<CR>gv=gv", { desc = 'Move selection up', noremap = true, silent = true })
 vim.keymap.set('v', '<A-j>', ":m '>+1<CR>gv=gv", { desc = 'Move selection down', noremap = true, silent = true })
-
-
-vim.keymap.set({ "n", "v" }, "gg", "gg0", { desc = "File first charcter", noremap = true, silent = true })
-vim.keymap.set({ "n", "v" }, "G", "G$", { desc = "File last charcter", noremap = true, silent = true })
