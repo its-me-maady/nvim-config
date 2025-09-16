@@ -7,7 +7,7 @@ vim.keymap.set({ 'i', 'v', 'x' }, 'jk', '<Esc>', { desc = 'Exit insert mode', no
 
 
 vim.keymap.set({ "i", "n" }, '<C-n>', ':saveas ', { desc = 'Save new file', noremap = true, silent = true })
-vim.keymap.set({ "i", "n" }, '<C-s>', ':w<CR>', { desc = 'Save current file', noremap = true, silent = true })
+vim.keymap.set({ "i", "n" }, '<C-s>', '<Esc>:w<CR>', { desc = 'Save current file', noremap = true, silent = true })
 vim.keymap.set({ "i", "n" }, '<C-a>', ':wa<CR>',
     { desc = 'Save all file in buffer', noremap = true, silent = true })
 vim.keymap.set({ "i", "n" }, '<C-e>', ':wqa<CR>',
@@ -29,8 +29,8 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window', noremap = true, silent = true })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window', noremap = true, silent = true })
 
-vim.keymap.set('n', '<leader>y', 'gg0vG$"+y')
-vim.keymap.set('v', '<leader>y', '"+y', { desc = 'Yank Selection to clipboard', noremap = true, silent = true })
+vim.keymap.set('n', '<leader>Y', 'gg0vG$"+y')
+vim.keymap.set('v', '<leader>y', '"+y', { desc = 'Yank Selection to clipboard', silent = true })
 
 -- TIP: Disable arrow keys in normal mode
 vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')

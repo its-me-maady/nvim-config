@@ -1,89 +1,103 @@
 return {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.8',
-    dependencies = { 'nvim-lua/plenary.nvim',
+    dependencies = {
+        'nvim-lua/plenary.nvim',
         {
             'nvim-telescope/telescope-fzf-native.nvim',
             build = 'make',
             cond = function()
-                return vim.fn.executable 'make' == 1
+                return vim.fn.executable('make') == 1
             end,
         },
-
         { 'nvim-telescope/telescope-ui-select.nvim' },
         {
             'nvim-tree/nvim-web-devicons',
-            enabled = vim.g.have_nerd_font
+            enabled = vim.g.have_nerd_font,
         },
     },
 
     config = function()
+        local telescope = require('telescope')
+        local builtin = require('telescope.builtin')
+
+        -- Configure pickers with ivy theme
         local pickers = {
-            "find_files",
-            "live_grep",
-            "buffers",
-            "help_tags",
-            "grep_string",
-            "oldfiles",
-            "lsp_references",
-            "lsp_definitions",
-            "diagnostics",
+            'find_files',
+            'live_grep',
+            'buffers',
+            'help_tags',
+            'grep_string',
+            'oldfiles',
+            'lsp_references',
+            'lsp_definitions',
+            'diagnostics',
         }
 
-        local theme = "ivy"
         local picker_configs = {}
-
         for _, picker in ipairs(pickers) do
-            picker_configs[picker] = { theme = theme }
+            picker_configs[picker] = { theme = 'ivy' }
         end
 
-        require('telescope').setup {
+        telescope.setup({
             pickers = picker_configs,
             extensions = {
                 ['ui-select'] = {
                     require('telescope.themes').get_dropdown(),
                 },
             },
-        }
-        require('telescope').load_extension'fzf'
-        require('telescope').load_extension'ui-select'
-        local builtin = require('telescope.builtin')
-        function SearchDotfiles()
+        })
+
+        -- Load extensions
+        telescope.load_extension('fzf')
+        telescope.load_extension('ui-select')
+
+        -- Helper functions
+        local function search_dotfiles()
             builtin.find_files({
-                prompt_title = "< Dotfiles >",
-                cwd = vim.fn.expand("/"),
+                prompt_title = '< Dotfiles >',
+                cwd = vim.fn.expand('/'),
                 hidden = true,
             })
         end
 
-        vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = '[F]ind [K]eymaps' })
-        vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = '[F]ind [D]iagnostics' })
-        vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = '[F]ind current [W]ord' })
-        vim.keymap.set('n', '<leader>fs', builtin.builtin, { desc = '[F]ind [S]elect Telescope' })
-        vim.keymap.set('n', '<C-v>', builtin.registers, { desc = '[F]ind [S]elect Registers' })
-        vim.keymap.set('n', '<leader>/', builtin.current_buffer_fuzzy_find,
-            { desc = '[/] Fuzzily find in current buffer' })
-        vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
-        vim.keymap.set('n', '<leader>fc', function()
-            vim.cmd("lcd %:p:h")
-            builtin.find_files()
-        end, { desc = 'Telescope find files' })
-        vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
-        vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
-        vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
-        vim.keymap.set('n', '<leader>fr', ':Telescope oldfiles<CR>', { desc = 'Telescope recent files' })
-
-        vim.keymap.set('n', '<leader>f/', function()
-            builtin.live_grep {
+        local function find_in_open_files()
+            builtin.live_grep({
                 grep_open_files = true,
                 prompt_title = 'Live Grep in Open Files',
-            }
-        end, { desc = '[F]ind [/] in Open Files' })
+            })
+        end
 
-        vim.keymap.set('n', '<leader>fn', function()
-            builtin.find_files { cwd = vim.fn.stdpath 'config' }
-        end, { desc = '[F]ind [N]eovim files' })
-        vim.keymap.set('n', '<leader>f.', SearchDotfiles, { desc = "Find Dotfiles" })
+        local function find_neovim_files()
+            builtin.find_files({ cwd = vim.fn.stdpath('config') })
+        end
+
+        local function find_files_from_current_dir()
+            vim.cmd('lcd %:p:h')
+            builtin.find_files()
+        end
+
+        -- Key mappings
+        local keymaps = {
+            { 'n', '<leader>fk', builtin.keymaps,                   { desc = '[F]ind [K]eymaps' } },
+            { 'n', '<leader>fd', builtin.diagnostics,               { desc = '[F]ind [D]iagnostics' } },
+            { 'n', '<leader>fw', builtin.grep_string,               { desc = '[F]ind current [W]ord' } },
+            { 'n', '<leader>fs', builtin.builtin,                   { desc = '[F]ind [S]elect Telescope' } },
+            { 'n', '<C-v>',      builtin.registers,                 { desc = 'Find Registers' } },
+            { 'n', '<leader>/',  builtin.current_buffer_fuzzy_find, { desc = '[/] Fuzzily find in current buffer' } },
+            { 'n', '<leader>ff', builtin.find_files,                { desc = '[F]ind [F]iles' } },
+            { 'n', '<leader>fc', find_files_from_current_dir,       { desc = '[F]ind files from [C]urrent directory' } },
+            { 'n', '<leader>fg', builtin.live_grep,                 { desc = '[F]ind by [G]rep' } },
+            { 'n', '<leader>fb', builtin.buffers,                   { desc = '[F]ind [B]uffers' } },
+            { 'n', '<leader>fh', builtin.help_tags,                 { desc = '[F]ind [H]elp' } },
+            { 'n', '<leader>fr', builtin.oldfiles,                  { desc = '[F]ind [R]ecent files' } },
+            { 'n', '<leader>f/', find_in_open_files,                { desc = '[F]ind [/] in Open Files' } },
+            { 'n', '<leader>fn', find_neovim_files,                 { desc = '[F]ind [N]eovim files' } },
+            { 'n', '<leader>f.', search_dotfiles,                   { desc = '[F]ind Dotfiles' } },
+        }
+
+        for _, map in ipairs(keymaps) do
+            vim.keymap.set(map[1], map[2], map[3], map[4])
+        end
     end,
-
 }
